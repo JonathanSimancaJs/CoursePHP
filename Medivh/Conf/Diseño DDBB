@@ -1,0 +1,165 @@
+--Tablas simples:
+
+CREATE TABLE COMUNICADOS(
+IdComunicado int auto_increment primary key,
+ComTitulo varchar(30) not null,
+ComTexto text not null,
+ComFecha datetime default NOW()
+);
+
+CREATE TABLE CIUDAD(
+IdCiudad int auto_increment primary key,
+CiuNombre varchar(20) not null
+);
+
+CREATE TABLE DEPARTAMENTO(
+IdDepart int auto_increment primary key,
+DepNombre varchar(20) not null
+);
+
+CREATE TABLE SOFTWARE(
+IdSoftware int auto_increment primary key,
+SofNOmbre varchar(50) not null
+);
+
+CREATE TABLE HARDWARE(
+IdHardware int auto_increment primary key,
+HarNombre varchar(50) not null
+);
+
+CREATE TABLE PROCESADOR(
+IdProcesador int auto_increment primary key,
+ProNombre varchar(20) not null
+);
+
+CREATE TABLE MEMORIA(
+IdMemoria int auto_increment primary key,
+MemCantidad varchar(20) not null
+);
+
+CREATE TABLE PERMISOS(
+IdPermiso int auto_increment primary key,
+PerTipo varchar(20) not null
+);
+
+CREATE TABLE ESTADOTICKET(
+IdEstado int auto_increment primary key,
+EstNombre varchar(15) not null
+);
+
+CREATE TABLE AREASSOPORTE(
+IdArea int auto_increment primary key,
+AreNombre varchar(15) not null
+);
+
+CREATE TABLE CANALENTRADA(
+IdCanal int auto_increment primary key,
+CanNombre varchar(15) not null
+);
+
+--Tablas dependientes:
+
+CREATE TABLE CLIENTE(
+IdCliente int primary key not null,
+CliNombre varchar(50) not null,
+CliTelefono1 varchar(10) not null,
+CliTelefono2 varchar(10),
+CliDireccion varchar(50) not null,
+IdCiudadCli int not null,
+IdDepartCli int not null,
+constraint fk_IdCiudadCli foreign key(IdCiudadCli) references CIUDAD(IdCiudad),
+constraint fk_IdDepartCli foreign key(IdDepartCli) references DEPARTAMENTO(IdDepart) 
+);
+
+CREATE TABLE ASESOR(
+IdAsesor char(15) primary key not null,
+AseNombre varchar(50) not null,
+AseCorreo varchar(50) not null,
+AseContra varchar(200) not null,
+IdPermisoAse int not null,
+IdAreaAse int not null,
+constraint fk_IdPermisoAse foreign key(IdPermisoAse) references PERMISOS(IdPermiso),
+constraint fk_IdAreaAse foreign key(IdAreaAse) references AREASSOPORTE(IdArea)
+);
+
+CREATE TABLE USUARIO(
+IdUsuario char(15) primary key not null,
+UsuIdent int not null,
+UsuNombre varchar(50) not null,
+UsuCorreo varchar(50) not null,
+UsuTelefono varchar(20) not null,
+UsuUbicacion varchar(20) not null,
+UsuContra varchar(200) not null,
+IdCLienteUsu int not null,
+IdPermisoUsu int not null,
+constraint fk_IdCLienteUsu foreign key(IdCLienteUsu) references CLIENTE(IdCliente),
+constraint fk_IdPermisoUsu foreign key(IdPermisoUsu) references PERMISOS(IdPermiso)
+);
+
+CREATE TABLE ACTIVO(
+IdActivo int(5) zerofill auto_increment primary key,
+ActSerial varchar(30) not null,
+ActNombreModelo varchar(50) not null,
+ActLicencia varchar(100),
+ActEstado varchar(15) not null,
+ActCategoria varchar(15) not null,
+IdUsuarioAct char(15),
+IdProcesadorAct int,
+IdMemoriaAct int,
+IdHardwareAct int not null,
+IdSoftwareAct int not null,
+constraint fk_IdUsuarioAct foreign key(IdUsuarioAct) references USUARIO(IdUsuario),
+constraint fk_IdProcesadorAct foreign key(IdProcesadorAct) references PROCESADOR(IdProcesador),
+constraint fk_IdMemoriaAct foreign key(IdMemoriaAct) references MEMORIA(IdMemoria),
+constraint fk_IdHardwareAct foreign key(IdHardwareAct) references HARDWARE(IdHardware),
+constraint fk_IdSoftwareAct foreign key(IdSoftwareAct) references SOFTWARE(IdSoftware)
+);
+
+CREATE TABLE TICKETS(
+IdTicket int(6) zerofill auto_increment primary key,
+TicFechaCreado datetime not null,
+TicFechaCierre datetime,
+TicAsunto varchar(30) not null,
+TicDescripcion text not null,
+TicImagen varchar(50),
+IdEstadoTic int not null,
+IdAreaTic int not null,
+IdCanalTic int not null,
+IdUsuarioTic char(15) not null,
+IdAsesorTic char(15),
+IdHardwareTic int,
+IdSoftwareTic int,
+constraint fk_IdEstadoTic foreign key(IdEstadoTic) references ESTADOTICKET(IdEstado),
+constraint fk_IdAreaTic foreign key(IdAreaTic) references AREASSOPORTE(IdArea),
+constraint fk_IdCanalTic foreign key(IdCanalTic) references CANALENTRADA(IdCanal),
+constraint fk_IdUsuarioTic foreign key(IdUsuarioTic) references USUARIO(IdUsuario),
+constraint fk_IdAsesorTic foreign key(IdAsesorTic) references ASESOR(IdAsesor),
+constraint fk_IdHardwareTic foreign key(IdHardwareTic) references HARDWARE(IdHardware),
+constraint fk_IdSoftwareTic foreign key(IdSoftwareTic) references SOFTWARE(IdSoftware)
+);
+
+CREATE TABLE NOTAS(
+IdNota int auto_increment primary key,
+NotDescripcion text not null,
+NotFecha datetime not null,
+IdTicketNot int(6) zerofill not null,
+IdAsesorNot char(15) not null,
+constraint fk_IdTicketNot foreign key(IdTicketNot) references TICKETS(IdTicket),
+constraint fk_IdAsesorNot foreign key(IdAsesorNot) references ASESOR(IdAsesor)
+);
+
+
+INSERT INTO CLIENTE VALUES (10001,'Default','Default',null,'Default',1,5);
+
+INSERT INTO USUARIO VALUES ('admin',20845712,'Pepito Perez','pperez@outlook.com','12356','Oficina 201',5555,958674,3);
+
+INSERT INTO TICKET (TicFechaCreado,TicAsunto,TicDescripcion,TicEstado,TicCanalEntrada,IdUsuarioTic,IdHardwareTic,IdSoftwareTic) VALUES(NOW(),'No sirve el teclado','Al oprimir las teclas no escribe, se desconecto y se reinicio el pc y persiste','Creado','Web','peperez',1,1);
+
+SELECT IdUsuarioTic,UsuTelefono,CliNombre FROM TICKET
+INNER JOIN USUARIO ON TICKET.IdUsuarioTic=USUARIO.IdUsuario
+INNER JOIN CLIENTE ON USUARIO.IdCLienteUsu=CLIENTE.IdCliente
+WHERE IdTicket=00001;
+
+SELECT IdCliente,CliNombre,CliTelefono1,CliTelefono2,CliDireccion,CiuNombre,DepNombre FROM CLIENTE
+INNER JOIN CIUDAD ON CLIENTE.IdCiudadCli=CIUDAD.IdCiudad
+INNER JOIN DEPARTAMENTO ON CLIENTE.IdDepartCli=DEPARTAMENTO.IdDepart;

@@ -1,0 +1,272 @@
+
+/ Crear base de datos/
+
+create table carrera(
+clave_c int,
+nom_c varchar(50),
+dura_c float,
+constraint pk_cc primary key(clave_c)
+);
+
+create table materia(
+clave_m int,
+nom_m varchar(50),
+cred_m float,
+constraint pk_cm primary key(clave_m)
+);
+
+create table profesor(
+clave_p int,
+nom_p varchar(150),
+dir_p varchar(200),
+tel_p bigint,
+hor_p datetime,
+constraint pk_cp primary key(clave_p)
+);
+
+create table alumno(
+mat_alu int,
+nom_alu varchar(150),
+edad_alu int,
+sem_alu int,
+gen_alu varchar(10),
+clave_c1 int,
+constraint pk_calu primary key(mat_alu),
+constraint fk_fc1 foreign key(clave_c1) references carrera (clave_c)
+);
+
+create table alu_pro(
+mat_alu1 int,
+clave_p1 int,
+constraint fk_falu1 foreign key(mat_alu1) references alumno(mat_alu),
+constraint fk_fp1 foreign key(clave_p1) references profesor(clave_p)
+);
+
+create table mat_alu(
+clave_m1 int,
+mat_alu2 int,
+constraint fk_fm1 foreign key(clave_m1) references materia(clave_m),
+constraint fk_falu2 foreign key(mat_alu2) references alumno(mat_alu)
+);
+
+create table mat_pro(
+clave_m2 int,
+clave_p2 int,
+constraint fk_fm2 foreign key(clave_m2) references materia(clave_m),
+constraint fk_fp2 foreign key(clave_p2) references profesor(clave_p)
+);
+
+/ Insertar Datos/
+
+insert into carrera values (1,'Derecho',3);
+insert into carrera values (2,'Ingeniería de Sistemas',8);
+
+
+insert into materia values (1,'Matematicas',25);
+insert into materia values (2,'Español',15);
+
+insert into profesor values (1,'Laura Rosas','Calle Azul',7240525,NOW());
+insert into profesor values (2,'Roberto Díaz','Calle Rosa',6240624,now());
+
+insert into alumno values (1,'Ana',18,6,'Mujer',1);
+
+insert into alu_pro values (1,2);
+
+insert into mat_alu values (1,1);
+
+insert into mat_pro values (2,2);
+
+/ Tipos de Conslta/
+
+select * from tabla;
+select campo,campo from tabla;
+
+select nom_alu,sem_alu,nom_c from alumno 
+inner join carrera on alumno.clave_c1=carrera.clave_c;
+
+select nom_alu,sem_alu,nom_c,nom_p from alumno 
+inner join carrera on alumno.clave_c1=carrera.clave_c
+inner join alu_pro on alu_pro.mat_alu1=alumno.mat_alu
+inner join profesor on profesor.clave_p=alu_pro.clave_p1;
+
+select nom_alu,sem_alu,nom_c,nom_p,nom_m from alumno 
+inner join carrera on alumno.clave_c1=carrera.clave_c
+inner join alu_pro on alu_pro.mat_alu1=alumno.mat_alu
+inner join profesor on profesor.clave_p=alu_pro.clave_p1
+inner join mat_alu on mat_alu.mat_alu2=alumno.mat_alu
+inner join materia on materia.clave_m=mat_alu.clave_m1;
+
+select nom_alu,sem_alu,nom_c,nom_p,nom_m from alumno 
+inner join carrera on alumno.clave_c1=carrera.clave_c
+inner join alu_pro on alu_pro.mat_alu1=alumno.mat_alu
+inner join profesor on profesor.clave_p=alu_pro.clave_p1
+inner join mat_alu on mat_alu.mat_alu2=alumno.mat_alu
+inner join materia on materia.clave_m=mat_alu.clave_m1
+where edad_alu=18;
+
+Nota: COn la condición where se puede usar multiples valores logicos como (= > < != etc) tambien se pueden consultar datos especiicos como ='sergio'.
+
+/ Modificar Datos/
+
+Base de datos de practica.............
+
+create table producto(
+clave_prod int,
+nom_prod varchar(150),
+precio float,
+constraint pk_cp primary key(clave_prod) 
+);
+
+create table cliente(
+clave_clie int,
+nom_clie varchar(150),
+constraint pk_cc primary key(clave_clie)
+);
+
+create table nota(
+folio int,
+clave_prod1 int,
+clave_clie1 int,
+cant int,
+subtot float,
+constraint fk_cp1 foreign key(clave_prod1) references producto(clave_prod),
+constraint fk_cc1 foreign key(clave_clie1) references cliente(clave_clie)
+);
+
+/ COmandos para actualizar/
+
+
+update cliente
+set nom_clie='laura';
+
+update cliente
+set nom_clie='Sergio'
+where clave_clie=2;
+
+update nota
+inner join producto on producto.clave_prod=nota.clave_prod1
+set subtot=cant*precio;
+
+
+/  Eliminar Datos /
+
+delete from nota; /////////Elimina todo el contenido de la tabla
+delete from producto where precio=9; /////////Elimina todos los precios que sea iguan a 9
+drop table nota; /////////////Elimina toda la tabla y contenido
+drop database; //////////// Elimina base dedatos
+truncate nombre; ////// Elimina tablas de forma mas rapida
+
+
+/Establecer restricciones/
+
+
+--TABLAS SIMPLES
+CREATE TABLE CARRERA(
+NOCARRERA CHAR(3) PRIMARY KEY,
+CARRERA VARCHAR(30),
+CHECK (NOCARRERA LIKE 'C[0-9][0-9]'))
+
+CREATE TABLE MATERIA(
+NUMMATERIA CHAR(3) PRIMARY KEY,
+MATERIA VARCHAR(30),
+CHECK (NUMMATERIA LIKE 'M[0-9][0-9]'))
+
+CREATE TABLE TIPO_TEL(
+ID_TIPOTEL CHAR(3) PRIMARY KEY,
+TIPOTEL VARCHAR(20),
+CHECK (ID_TIPOTEL LIKE 'T[0-9][0-9]'))
+
+CREATE TABLE DELEGACION(
+ID_DELEGACION CHAR(5) PRIMARY KEY,
+DELEGACION VARCHAR(30),
+CHECK (ID_DELEGACION LIKE 'DE-[A-Z][0-9]'))
+
+--TABLAS DEPENDIENTES
+CREATE TABLE COLONIA(
+ID_COLONIA CHAR(5) PRIMARY KEY,
+COLONIA VARCHAR(40),
+ID_DELEGACION2 CHAR(5),
+CHECK (ID_COLONIA LIKE 'CO-[A-Z][0-9]'),
+CONSTRAINT FK_FDELEGACION2 FOREIGN KEY(ID_DELEGACION2) REFERENCES DELEGACION (ID_DELEGACION)
+);
+
+CREATE TABLE CALLE(
+ID_CALLE CHAR(5) PRIMARY KEY,
+CALLE VARCHAR(40),
+ID_COLONIA2 CHAR(5),
+CHECK (ID_CALLE LIKE 'CA-[A-Z][0-9]'),
+CONSTRAINT FK_FCOLONIA2 FOREIGN KEY(ID_COLONIA2) REFERENCES COLONIA (ID_COLONIA)
+);
+
+CREATE TABLE ALUMNO(
+MATRICULA_ALU CHAR(10) PRIMARY KEY,
+NOMBRE_ALU VARCHAR(25),
+APP_ALU VARCHAR(20),
+APM_ALU VARCHAR(20),
+ID_DELEGACION1 CHAR(5),
+ID_COLONIA1 CHAR(5),
+ID_CALLE1 CHAR(5),
+NUM_INT VARCHAR(8),
+NUM_EXT VARCHAR(8),
+CP VARCHAR(5),
+NOCARRERA1 CHAR(3),
+CHECK (MATRICULA_ALU LIKE 'ALU-[A-Z][0-9][0-9][0-9][A-D][D-Z]'),
+CONSTRAINT FK_DELEGACION1 FOREIGN KEY(ID_DELEGACION1) REFERENCES DELEGACION (ID_DELEGACION),
+CONSTRAINT FK_FCOLONIA1 FOREIGN KEY(ID_COLONIA1) REFERENCES COLONIA (ID_COLONIA),
+CONSTRAINT FK_FCALLE1 FOREIGN KEY(ID_CALLE1) REFERENCES CALLE (ID_CALLE),
+CONSTRAINT FK_FNOCARRERA1 FOREIGN KEY(NOCARRERA1) REFERENCES CARRERA (NOCARRERA)
+);
+
+--TABLAS INTERMEDIAS
+
+CREATE TABLE ALUMNO_MATERIA(
+MATRICULA_ALU1 CHAR(10),
+NUMMATERIA1 CHAR(3),
+CONSTRAINT FK_FALU1 FOREIGN KEY(MATRICULA_ALU1) REFERENCES ALUMNO (MATRICULA_ALU),
+CONSTRAINT FK_FNUMMATERIA1 FOREIGN KEY(NUMMATERIA1) REFERENCES MATERIA (NUMMATERIA)
+);
+
+CREATE TABLE ALUMNO_TIPOTEL(
+ID_TIPOTEL1 CHAR(3),
+MATRICULA_ALU2 CHAR(10),
+TELEFONO BIGINT,
+CHECK (TELEFONO<0),
+CONSTRAINT FK_FTIPOTEL1 FOREIGN KEY(ID_TIPOTEL1) REFERENCES TIPO_TEL (ID_TIPOTEL),
+CONSTRAINT FK_FALU2 FOREIGN KEY(MATRICULA_ALU2) REFERENCES ALUMNO (MATRICULA_ALU)
+);
+
+-- Insert
+
+
+--Carrera
+INSERT INTO CARRERA VALUES ('C23','SISTEMAS');
+INSERT INTO CARRERA VALUES ('C24','GASTRONOMIA');
+
+--Materia
+INSERT INTO MATERIA VALUES ('M12','CONTROL INTELIGENTE');
+INSERT INTO MATERIA VALUES ('M13','ESTADISTICA');
+
+--Tipo_tel
+INSERT INTO TIPO_TEL VALUES ('T18','CELULAR');
+INSERT INTO TIPO_TEL VALUES ('T19','CASA');
+
+--Delegación
+INSERT INTO DELEGACION VALUES ('DE-B1','BENITO JUAREZ');
+INSERT INTO DELEGACION VALUES ('DE-I1','IZTACALCO');
+
+--Colonia
+INSERT INTO COLONIA VALUES ('CO-B1','ANZURES','DE-B1');
+INSERT INTO COLONIA VALUES ('CO-B2','DEL VALLE','DE-I1');
+
+--Calle
+INSERT INTO CALLE VALUES ('CA-A1','ROSA','CO-B1');
+INSERT INTO CALLE VALUES ('CA-B1','AZUL','CO-B2');
+
+--Alumno
+INSERT INTO ALUMNO VALUES ('ALU-A123BM','ANA','ORTIZ','ESTRADA','DE-B1','CO-B1','CA-A1','10A','204','89090','C23');
+
+--Alumno_materia
+INSERT INTO ALUMNO_MATERIA VALUES ('ALU-A123BM','M12');
+
+--Alumno_tipotel
+INSERT INTO ALUMNO_TIPOTEL VALUES ('T18','ALU-A123BM',67676767);

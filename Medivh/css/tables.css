@@ -1,0 +1,249 @@
+/* Este archivo contiene la decoracion de todas las tablas de la pagina. */
+
+/* Decoración tablas de datos*/
+
+.tdatos, .tdatos td, .tdatos tr {
+	padding:0px;
+	border-spacing: 0px;
+}
+ 
+.tdatos {
+	background:#ccee00;
+	border:1px black solid;
+	border-radius:5px;
+	min-width:400px;
+	font-family: Helvetica,Arial;
+	font-size: 12px;
+}
+ 
+.tdatos td {
+	padding:6px;
+}
+
+.tdatos tr:first-child {
+ border-radius:5px 0px 0px 0px;
+ background:#064650;
+ color: #fff;
+}
+
+.tdatos input{
+	background: #DCDCDC;
+	border-radius: 2px;
+}
+
+.tdatos select{
+	background: #DCDCDC;
+	border-radius: 2px;
+	direction: button;
+}
+
+.tdatos tr:nth-child(even){
+	background-color:#FAFAD2;
+
+	}
+
+/* CSS Decoración tabla activos*/
+
+.tactivo, .tactivo td, .tactivo tr {
+	padding:0px;
+	border-spacing: 0px;
+}
+ 
+.tactivo {
+	background:#FAFAD2;
+	border:1px black solid;
+	border-radius:5px;
+	min-width:400px;
+	font-family: Helvetica,Arial;
+}
+ 
+.tactivo td {
+	padding:6px;
+}
+
+.tactivo input{
+	background: #DCDCDC;
+	border-radius: 2px;
+}
+
+.tactivo select{
+	background: #DCDCDC;
+	border-radius: 2px;
+	direction: button;
+}
+
+.tact_a {
+	background:#000;
+	color: #fff;
+
+}
+
+.tact_b{
+	text-align: center;
+}
+
+.tact_c{
+	text-align: right;
+}
+
+.tactitle{
+	background:#064650;
+	text-align: center;
+	color: #fff;
+}
+
+/* CSS Decoración tabla busqueda*/
+
+
+.tbusqueda, .tbusqueda td, .tbusqueda tr {
+	padding:0px;
+	border-spacing: 0px;
+}
+ 
+.tbusqueda{
+	background:#FAFAD2;
+	border:1px black solid;
+	border-radius:5px;
+	min-width:400px;
+	font-family: Helvetica,Arial;
+}
+ 
+.tbusqueda td {
+	padding:6px;
+}
+
+.tbusqueda input{
+	background: #DCDCDC;
+	border-radius: 2px;
+}
+
+/* CSS Decoración tabla tickets-usuario-busqueda*/
+
+.ttickbus, .ttickbus td, .ttickbus tr {
+	padding:0px;
+	border-spacing: 0px;
+}
+ 
+.ttickbus{
+	background:#FAFAD2;
+	border:1px black solid;
+	border-radius:5px;
+	min-width:400px;
+	font-family: Helvetica,Arial;
+}
+ 
+.ttickbus td {
+	padding:6px;
+}
+
+.ttickbus tr:first-child {
+ border-radius:5px 0px 0px 0px;
+ background:#FF4500;
+ color: #fff;
+}
+
+/* CSS Decoración tabla usuario-actualiza-datos*/
+
+
+.tupdateuser, .tupdateuser td, .tupdateuser tr {
+	padding:0px;
+	border-spacing: 0px;
+}
+ 
+.tupdateuser {
+	background:#FAFAD2;
+	border:1px black solid;
+	border-radius:5px;
+	min-width:300px;
+	font-family: Helvetica,Arial;
+}
+ 
+.tupdateuser td {
+	padding:6px;
+}
+
+.tupdateuser input{
+	background: #DCDCDC;
+	border-radius: 2px;
+}
+
+.tupdateuser select{
+	background: #DCDCDC;
+	border-radius: 2px;
+	direction: button;
+}
+
+/* CSS Decoración tabla usuario-actualiza-datos*/
+
+.tshowtick, .tshowtick td, .tshowtick tr {
+	padding:0px;
+	border-spacing: 0px;
+	font-size: 12px;
+}
+ 
+.tshowtick {
+	width: 700px;
+	background:#FAFAD2;
+	min-width:400px;
+	font-family: Helvetica,Arial;
+}
+ 
+.tshowtick td {
+	padding:6px;
+	width: 20px;
+}
+
+.tshowtick tr:first-child {
+ background:#064650;
+ color: #fff;
+}
+
+.tshowimg, .tshowimg td, .tshowimg tr {
+	padding:0px;
+	border-spacing: 0px;
+}
+ 
+.tshowimg {
+	text-align-last: center;
+	width: 700px;
+	background:#FAFAD2;
+	min-width:400px;
+	font-family: Helvetica,Arial;
+}
+ 
+.tshowimg td {
+	padding:6px;
+}
+
+.tshowtitulos{
+	text-align:left;
+}
+
+.tdespacio{
+	width: 50px;
+}
+
+/*DecoracIon tabla nOtas */
+
+.tnotas, .tnotas td, .tnotas tr {
+	padding:0px;
+	border-spacing: 0px;
+}
+ 
+.tnotas {
+	background:#FAFAD2;
+	border-radius:5px;
+	min-width:800px;
+	font-family: Helvetica,Arial;
+	font-size: 12px;
+}
+ 
+.tnotas td {
+	padding:6px;
+}
+
+.tnotas tr:first-child {
+ border-radius:5px 0px 0px 0px;
+ background:#064650;
+ color: #fff;
+}

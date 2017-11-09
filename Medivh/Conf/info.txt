@@ -1,0 +1,2 @@
+la contraseña de los usuarios es: 12345
+Se debe importar el archvo MEDIVH.sql a MYSQL para que la aplicacion funcione bien. En todo caso en el arcchivo Diseño  DDBB se encuentra programado en lenguaje sql el diseño de la base de datos.

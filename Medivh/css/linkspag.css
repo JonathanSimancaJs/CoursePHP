@@ -1,0 +1,16 @@
+/* Este archivos aplica estilos a los enlaces. */
+
+#pag:link {
+		color:#000;
+		text-decoration:none;
+	}
+
+#pag:visited {
+		color:#000;
+		text-decoration:none;
+	}
+
+#pag:hover {
+		color:#0000FF;
+		text-decoration:none;
+	}

@@ -1,0 +1,97 @@
+/* Este archivo aplica estilo y decoracion al menu principal de la pagina. */
+
+body{
+	margin: 0;
+	font-size: 14px;
+	font-family: sans-serif;
+}
+
+.tabla{
+	margin:0;
+	width: 100%;
+	border:10px;
+}
+
+.derecha{
+	text-align: right;
+}
+
+header{
+	width: 100%;
+	background:#ccee00;
+	-webkit-box-shadow: 10px 9px 6px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 10px 9px 6px 0px rgba(0,0,0,0.75);
+	box-shadow: 10px 9px 6px 0px rgba(0,0,0,0.75)	
+}
+
+#btn-menu{
+	display: none;
+}
+
+header label{
+	display: none;
+	width: 30px;
+	height: 30px;
+	padding: 10px;
+	border-right: 1px solid #fff;
+}
+
+header label:hover{
+	cursor: pointer;
+	background:#2a7a78;
+}
+
+.menu ul{
+	margin: 0;
+	list-style: none;
+	padding: 0;
+	display: flex;
+}
+
+.menu li{
+	border-right: 1px solid #fff;
+	background: #2a7a78;
+}
+
+.menu li:hover{
+	background:#2a7a78;
+}
+
+.menu li a:hover{
+	color:#fff;
+}
+
+.menu li a{
+	display: block;
+	padding: 10px;
+	color: #000;
+	text-decoration: none;
+}
+
+@media(max-width: 768px){
+
+	header label{
+		display: block;
+	}
+
+	.menu {
+		position:absolute;
+		background:#ADFF2F;
+		width: 50%;
+		margin-left: -70%;
+		transition: all 0.5s;
+
+	}
+
+	.menu ul{
+		flex-direction: column;
+	}
+
+	.menu li{
+		border-top: 1px solid #fff;
+	}
+
+	#btn-menu:checked ~ .menu {
+		margin:0;
+	}
+}

@@ -1,0 +1,127 @@
+Tablas Simples:
+
+create table EMPRESA(
+idempresa int primary key comment 'Clave Primaria',
+nombre_emp varchar (30) not null comment 'Nombre de la empresa a la cual pertenece el empleado',
+direccion_emp varchar (20) not null comment 'Dirección de la empresa a la cual pertenece el empleado'
+);
+
+create table AREASSOPORTE(
+idarea int primary key,
+nombre_are varchar(20) not null comment 'Nombre del area a la cual pertenece el asesor'
+);
+
+create table HARDWARE(
+idhardware int primary key,
+tipo_hard varchar(30) not null comment 'Nombre del hardware que involucra a la falla'
+);
+
+create table SOFTWARE(
+idsoftware int primary key,
+tipo_soft varchar(30) not null comment 'Nombre del software con el cual se relaciona la falla'
+);
+
+create table ESTADOTICKET(
+idestado int primary key,
+tipo_est varchar(10) not null comment 'Nombre o estado del ticket'
+);
+
+Tablas Dependientes:
+
+create table USUARIO(
+idusuario char(5) primary key comment 'Clave primaria',
+idempresa1 int comment 'Clave foranea de la tabla EMPRESA',
+nombre_usu varchar(20) not null comment 'Nombre del usuario que coloca el ticket',
+apellido_usu varchar(20) not null comment 'Apellido del usuario que coloca el ticket',
+correo_usu varchar(20) not null comment 'Correo de contacto del usuario',
+telefono_usu int not null comment 'Telefono de contacto del usuario'
+check (idusuario like 'U[0-9][0-9][0-9][0-9]'),
+constraint fk_fidempresa1 foreign key(idempresa1) references EMPRESA(idempresa)
+);
+
+create table ASESOR(
+idasesor char(5) primary key comment 'Clave primaria',
+idarea1 int comment 'Clave foranea de la tabla AREASSOPORTE',
+nombre_ase varchar(20) not null comment 'Nombre del asesor que atiende el ticket',
+apellido_ase varchar(20) not null comment 'Apellido del asesor',
+correo_ase varchar(20) not null comment 'Cotrreo del asesor que atiende el ticket',
+check (idasesor like 'A[0-9][0-9][0-9][0-9]'),
+constraint fk_fidarea1 foreign key(idarea1) references AREASSOPORTE(idarea)
+);
+
+create table TIPIFICACION(
+idtipif int primary key comment 'Clave clave primaria',
+idsoftware1 int comment 'Clave foranea de la tabla SOFTWARE',
+idhardware1 int comment 'Clave foranea de la tabla HARDWARE',
+constraint fk_fidsofware1 foreign key(idsoftware1) references SOFTWARE(idsoftware),
+constraint fk_fidhardware foreign key(idhardware1) references HARDWARE(idhardware)
+);
+
+create table TICKETSOPORTE(
+idticket int primary key comment 'Clave primaria',
+idasesor1 char(5) comment 'Clave foranea de la tabla ASESOR',
+idestado1 int comment 'Clave foranea de la tabla ESTADOTICKET',
+idtipif1 int comment 'Clave foranea de la tabla TIPFICACION',
+fecha_tick datetime not null comment 'Fecha y hora en la cual se crea el ticket',
+falla_tick varchar(255) not null comment 'Campo donde el usuario describe la fala',
+solucion_tick varchar(255) comment 'Solución brindada al caso del usurio',
+constraint fk_fidasesor1 foreign key(idasesor1) references ASESOR(idasesor),
+constraint fk_fidestado1 foreign key(idestado1) references ESTADOTICKET(idestado),
+constraint fk_fidtipif1 foreign key(idtipif1) references TIPIFICACION(idtipif)
+);
+
+create table USUARIOTICKET(
+idticket2 int comment 'Clave foranea que hace referencia a la tabla TICKETSOPORTE',
+idusuario2 char(5) comment 'Clave foranea que hace referencia a la tabla USUARIO',
+constraint fk_fidticket2 foreign key(idticket2) references TICKETSOPORTE(idticket),
+constraint fk_fidusuario2 foreign key(idusuario2) references USUARIO(idusuario)
+);
+
+
+Ingreso de datos:
+
+insert into EMPRESA values(1,'Papas Margarita','Call 25 no 12 03');
+
+insert into USUARIO values('U2326',1,'Pepito','Perez','pepito@papas.com',4720103);
+
+insert into AREASSOPORTE values(1,'Nivel 1');
+
+insert into ASESOR values('A0103',1,'Juanita','Montes','juanita@it.com');
+
+insert into HARDWARE values(1,'RAM');
+
+insert into SOFTWARE values(1,'WINDOWS 10');
+
+insert into TIPIFICACION values(1,1,1);
+
+insert into ESTADOTICKET values(1,'Abierto');
+
+insert into TICKETSOPORTE values(1,'A0103',1,1,now(),'Error de pantalla azul al encender el pc',null);
+
+insert into USUARIOTICKET values(1,'U2326');
+
+
+Consulta de datos:
+
+select nombre_usu,direccion_emp from USUARIO
+inner join EMPRESA on USUARIO.idempresa1=EMPRESA.idempresa;
+
+select nombre_usu,direccion_emp,idticket from USUARIO
+inner join EMPRESA on USUARIO.idempresa1=EMPRESA.idempresa
+inner join USUARIOTICKET on USUARIOTICKET.idusuario2=USUARIO.idusuario
+inner join TICKETSOPORTE on TICKETSOPORTE.idticket=USUARIOTICKET.idticket2;
+
+select nombre_usu,idticket,tipo_est from USUARIO
+inner join USUARIOTICKET on USUARIOTICKET.idusuario2=USUARIO.idusuario
+inner join TICKETSOPORTE on TICKETSOPORTE.idticket=USUARIOTICKET.idticket2
+inner join ESTADOTICKET on TICKETSOPORTE.idestado1=ESTADOTICKET.idestado;
+
+
+Alterar Campos:
+
+alter table HARDWARE 
+modify tipo_hard varchar(30) not null comment 'Nombre del hardware que involucra a la falla'
+
+alter table SOFTWARE 
+modify tipo_soft varchar(30) not null comment 'Nombre del hardware que involucra a la falla'
+
